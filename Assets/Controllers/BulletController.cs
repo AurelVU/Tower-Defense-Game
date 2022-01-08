@@ -18,9 +18,9 @@ public class BulletController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemyTarget is null)
+        if (enemyTarget == null)
             Destroy(gameObject);
-            
+
         Vector3 direction = enemyTarget.position - transform.position;
         transform.LookAt(enemyTarget);
         transform.Translate(direction.normalized * speed * Time.deltaTime, Space.World);

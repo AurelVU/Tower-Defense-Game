@@ -9,13 +9,15 @@ public class NodeController : MonoBehaviour
     public Color hoverColor;
     Renderer renderer;
     Color startColor;
+    BuildManager buildManager;
 
     void Start() {
         renderer = GetComponent<Renderer>();
         startColor = renderer.material.color;
+        buildManager = BuildManager.instance;
     }
     void OnMouseDown() {
-        Instantiate(turret, transform.position + new Vector3(0, 3.0f, 0), transform.rotation);
+        Instantiate(buildManager.TurretToBuild, transform.position + new Vector3(0, 3.0f, 0), transform.rotation);
     }
 
     void OnMouseEnter() {
