@@ -17,7 +17,8 @@ public class NodeController : MonoBehaviour
         buildManager = BuildManager.instance;
     }
     void OnMouseDown() {
-        Instantiate(buildManager.TurretToBuild, transform.position + new Vector3(0, 3.0f, 0), transform.rotation);
+        if (buildManager.ConstructionAllowed)
+            Instantiate(buildManager.TurretToBuild, transform.position + new Vector3(0, 3.0f, 0), transform.rotation);
     }
 
     void OnMouseEnter() {

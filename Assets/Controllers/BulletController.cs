@@ -9,6 +9,7 @@ public class BulletController : MonoBehaviour
     public float speed = 20.0f;
     Transform enemyTarget;
     private EnemyController targetEnemyController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,10 @@ public class BulletController : MonoBehaviour
     void Update()
     {
         if (enemyTarget == null)
-            Destroy(gameObject);
+        {
+            Destroy(gameObject); 
+            return;
+        }
 
         Vector3 direction = enemyTarget.position - transform.position;
         transform.LookAt(enemyTarget);
@@ -28,10 +32,8 @@ public class BulletController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        UnityEngine.Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag == "Enemy") {
             Destroy(gameObject);
-            Debug.Log(collision.gameObject.tag);
             onHitEnemy(enemyTarget, targetEnemyController);
         }
     }

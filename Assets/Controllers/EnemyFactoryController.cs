@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyFactoryController : MonoBehaviour
 {
+    public delegate void WaveFinish(int waveIndex);
+    public event WaveFinish? onWaveFinished;
     public float timeBetweenWaves = 5f;
     private float countdown = 2f;
     public Transform spawnPoint;
@@ -14,11 +16,11 @@ public class EnemyFactoryController : MonoBehaviour
     public Text waveCountdownText;
     private int waveIndex = 0;
     private int maxWaveIndex = 5;
-
-    // Start is called before the first frame update
+    public static EnemyFactoryController instance;
+    
     void Start()
     {
-        
+        instance = new EnemyFactoryController();
     }
 
     // Update is called once per frame
@@ -40,7 +42,7 @@ public class EnemyFactoryController : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnWave ()
+    IEnumerator SpawnWave()
     {
         waveIndex++;
 
@@ -49,6 +51,9 @@ public class EnemyFactoryController : MonoBehaviour
             SpawnEnemy();
             yield return new WaitForSeconds(delay);
         }
+
+        if (onWaveFinished != null)
+            onWaveFinished(waveIndex);
     }
 
     void SpawnEnemy ()

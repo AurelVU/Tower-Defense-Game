@@ -5,10 +5,16 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
+    public delegate void Death(string name);
+    public event Death? onDeath;
+    public delegate void Finish(int damage);
+    public event Finish? onFinish;
+    public string name;
     public float speed = 1.0f;
     public float startHP = 100f;
     public float currentHP = 100f;
     public int reward = 50;
+    public int damage = 10;
     public bool isAlive { get { return currentHP > 0.0f; } private set {} }
 
     public Transform target { get { return RotationController.points[currentTargetPoint]; } private set {} }
@@ -33,9 +39,6 @@ public class EnemyController : MonoBehaviour
     public void hit(float damage) {
         currentHP -= damage;
         if (!isAlive) {
-            Debug.Log(damage);
-            Debug.Log(isAlive);
-            Debug.Log(currentHP);
             destroyWhendestroyed();
         }
     }
@@ -57,11 +60,13 @@ public class EnemyController : MonoBehaviour
 
     public void destroyWhenFinished() {
         Destroy(gameObject);
-        // ToDo: отнять у игрока жизни
+        if (onFinish != null)
+            onFinish(damage);
     }
 
     public void destroyWhendestroyed() {
         Destroy(gameObject);
-        // ToDo: добавить бабки
+        if (onDeath != null)
+            onDeath(name);
     }
 }

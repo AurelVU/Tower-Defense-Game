@@ -134,7 +134,6 @@ public class TurretController : MonoBehaviour
 
 	
     public void onHit(Transform target, EnemyController targetEnemyController) {
-        Debug.Log("Hit!!!");
 		targetEnemyController.hit(damage);
     }
 	void Shoot ()

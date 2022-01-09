@@ -16,6 +16,19 @@ public class ShopController : MonoBehaviour
     {
         buildManager = BuildManager.instance;
         balanceText.text = $"{Balance}$";
+        
+        GameObject enemyFactory = GameObject.Find("EnemyFactory");
+        EnemyFactoryController enemyFactoryController = enemyFactory.GetComponent<EnemyFactoryController>();
+        enemyFactoryController.onWaveFinished += onWaveFinished;
+    }
+
+    void onWaveFinished(int indexWave) {
+        balanceReward((indexWave + 1) * 100);
+    }
+
+    void balanceReward(int cost) {
+        Balance += cost;
+        balanceText.text = $"{Balance}$";
     }
 
     void buyChangeMoney(int cost) {
@@ -24,14 +37,15 @@ public class ShopController : MonoBehaviour
     }
     public void shopBaseTurret ()
     {
-        if (Balance - BaseTurretCost > 0) {
+        if (!buildManager.ConstructionAllowed && 
+        Balance - BaseTurretCost > 0) {
             buyChangeMoney(BaseTurretCost);
             buildManager.selectBaseTurret();
         }
     }
     public void shopDoubleTurret ()
     {
-        if (Balance - DoubleTurretCost > 0) {
+        if (!buildManager.ConstructionAllowed && Balance - DoubleTurretCost > 0) {
             buyChangeMoney(DoubleTurretCost);
             buildManager.selectDoubleTurret();
         }
@@ -39,7 +53,7 @@ public class ShopController : MonoBehaviour
 
     public void shopMachinganTurret ()
     {
-        if (Balance - MachinganTurretCost > 0) {
+        if (!buildManager.ConstructionAllowed && Balance - MachinganTurretCost > 0) {
             buyChangeMoney(MachinganTurretCost);
             buildManager.selectMachinganTurret();
         }

@@ -9,7 +9,12 @@ public class BuildManager : MonoBehaviour
     public GameObject doubleTurretPrefab;
     public GameObject machingunTurretPrefab;
     private GameObject turretToBuild;
-    public GameObject TurretToBuild { get { return turretToBuild; } private set {} }
+    public GameObject TurretToBuild { get {
+        GameObject localTurretToBuild = turretToBuild;
+        turretToBuild = null;
+        return localTurretToBuild; 
+    } private set {} }
+    public bool ConstructionAllowed { get { return turretToBuild != null; } private set {} }
 
     void Awake()
     {
@@ -18,7 +23,7 @@ public class BuildManager : MonoBehaviour
             return;
         }
         instance = this;
-        turretToBuild = standartTurretPrefab;
+        turretToBuild = null;
     }
     public void selectBaseTurret() {
         Debug.Log("Selected base turret");
@@ -31,7 +36,7 @@ public class BuildManager : MonoBehaviour
     }
 
     public void selectMachinganTurret() {
-        Debug.Log("Selected double turret");
+        Debug.Log("Selected machingun turret");
         turretToBuild = machingunTurretPrefab;
     }
 }
