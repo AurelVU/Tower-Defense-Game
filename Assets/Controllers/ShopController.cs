@@ -26,7 +26,7 @@ public class ShopController : MonoBehaviour
         balanceReward((indexWave + 1) * 100);
     }
 
-    void balanceReward(int cost) {
+    public void balanceReward(int cost) {
         Balance += cost;
         balanceText.text = $"{Balance}$";
     }

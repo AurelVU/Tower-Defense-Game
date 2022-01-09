@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyFactoryController : MonoBehaviour
 {
+    public delegate void DamagePlayer(int damage);
+    public event DamagePlayer? onDamagePlayer;
     public delegate void WaveFinish(int waveIndex);
     public event WaveFinish? onWaveFinished;
     public float timeBetweenWaves = 5f;
@@ -40,6 +42,12 @@ public class EnemyFactoryController : MonoBehaviour
         } else {
             waveCountdownText.text = "Силы противника\nисчерпаны";
         }
+    }
+
+    void finishEnemy(int damage) {
+        Debug.Log("gkldfgjlgdfjlfgd");
+        if (onDamagePlayer != null)
+            onDamagePlayer(damage);
     }
 
     IEnumerator SpawnWave()

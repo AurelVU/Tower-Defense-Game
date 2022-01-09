@@ -60,13 +60,15 @@ public class EnemyController : MonoBehaviour
 
     public void destroyWhenFinished() {
         Destroy(gameObject);
-        if (onFinish != null)
-            onFinish(damage);
+        GameObject player = GameObject.Find("player");
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        playerController.damagePlayer(damage);
     }
 
     public void destroyWhendestroyed() {
         Destroy(gameObject);
-        if (onDeath != null)
-            onDeath(name);
+        GameObject shop = GameObject.Find("shop");
+        ShopController shopController = shop.GetComponent<ShopController>();
+        shopController.balanceReward(reward);
     }
 }
