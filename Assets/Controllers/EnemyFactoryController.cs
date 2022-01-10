@@ -13,13 +13,15 @@ public class EnemyFactoryController : MonoBehaviour
     private float countdown = 2f;
     public Transform spawnPoint;
     public Transform enemy;
+    public Transform enemy2;
+    public Transform enemy3;
     public float delay = 0.5f;
 
     public Text waveCountdownText;
     private int waveIndex = 0;
     private int maxWaveIndex = 5;
     public static EnemyFactoryController instance;
-    
+    public bool isLastWave {get { return maxWaveIndex == waveIndex - 1; } private set {}}
     void Start()
     {
         instance = new EnemyFactoryController();
@@ -38,14 +40,13 @@ public class EnemyFactoryController : MonoBehaviour
 
             countdown -= Time.deltaTime;
 
-            waveCountdownText.text = $"До следующей волны {Mathf.Round(countdown).ToString()} с.";
+            waveCountdownText.text = $"Волна {waveIndex} / {maxWaveIndex}\nДо следующей волны {Mathf.Round(countdown).ToString()} с.";
         } else {
             waveCountdownText.text = "Силы противника\nисчерпаны";
         }
     }
 
     void finishEnemy(int damage) {
-        Debug.Log("gkldfgjlgdfjlfgd");
         if (onDamagePlayer != null)
             onDamagePlayer(damage);
     }
@@ -58,14 +59,31 @@ public class EnemyFactoryController : MonoBehaviour
         {
             SpawnEnemy();
             yield return new WaitForSeconds(delay);
+            SpawnEnemy2();
+            yield return new WaitForSeconds(delay);
         }
+
+        SpawnEnemy3();
+        yield return new WaitForSeconds(delay * 3);
+        SpawnEnemy3();
+        
+        
 
         if (onWaveFinished != null)
             onWaveFinished(waveIndex);
     }
 
-    void SpawnEnemy ()
+    void SpawnEnemy()
     {
         Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
+    }
+
+    void SpawnEnemy2()
+    {
+        Instantiate(enemy2, spawnPoint.position, spawnPoint.rotation);
+    }
+    void SpawnEnemy3()
+    {
+        Instantiate(enemy3, spawnPoint.position, spawnPoint.rotation);
     }
 }

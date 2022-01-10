@@ -153,4 +153,15 @@ public class TurretController : MonoBehaviour
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, range);
 	}
+
+	public void sale() {
+		GameObject shop = GameObject.Find("shop");
+        ShopController shopController = shop.GetComponent<ShopController>();
+		Debug.Log(transform.name.Replace("(Clone)", "").Trim());
+		shopController.towerSale(transform.name.Replace("(Clone)", "").Trim());
+	}
+
+    private void OnMouseUp() {
+        Debug.Log("Clicked on TURRET!!!");
+    }
 }

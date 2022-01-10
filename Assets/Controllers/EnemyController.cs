@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
-    public delegate void Death(string name);
-    public event Death? onDeath;
-    public delegate void Finish(int damage);
-    public event Finish? onFinish;
     public string name;
     public float speed = 1.0f;
     public float startHP = 100f;
@@ -48,7 +44,7 @@ public class EnemyController : MonoBehaviour
     }
 
     void updateTarget() {
-        if (Vector3.Distance(target.position, transform.position) < 0.1f) {
+        if (Vector3.Distance(target.position, transform.position) < 0.3f) {
             currentTargetPoint += 1;
             if (currentTargetPoint == RotationController.points.Length) {
                destroyWhenFinished();
@@ -63,6 +59,19 @@ public class EnemyController : MonoBehaviour
         GameObject player = GameObject.Find("player");
         PlayerController playerController = player.GetComponent<PlayerController>();
         playerController.damagePlayer(damage);
+
+        GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+
+        if (!playerController.isAlive) {
+            GameObject game = GameObject.Find("gameController");
+            GameController gameController = game.GetComponent<GameController>();
+            gameController.loseGame();
+        }
+        if (enemys.Length == 1) {      
+            GameObject game = GameObject.Find("gameController");
+            GameController gameController = player.GetComponent<GameController>();
+            gameController.winGame();    
+        }
     }
 
     public void destroyWhendestroyed() {
@@ -70,5 +79,15 @@ public class EnemyController : MonoBehaviour
         GameObject shop = GameObject.Find("shop");
         ShopController shopController = shop.GetComponent<ShopController>();
         shopController.balanceReward(reward);
+
+        GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject enemyFactory = GameObject.Find("EnemyFactory");
+        EnemyFactoryController enemyFactoryController = enemyFactory.GetComponent<EnemyFactoryController>();
+        if (enemys.Length == 1) {
+            GameObject game = GameObject.Find("gameController");
+            GameController gameController = game.GetComponent<GameController>();
+
+            gameController.winGame();
+        }
     }
 }

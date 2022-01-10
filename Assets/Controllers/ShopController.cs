@@ -58,4 +58,17 @@ public class ShopController : MonoBehaviour
             buildManager.selectMachinganTurret();
         }
     }
+
+    public void towerSale(string name) {
+        int reward = 0;
+        Debug.Log($"name {name}");
+        if (name.Equals("Turret"))
+            reward = BaseTurretCost;
+        if (name.Equals("Turret2")) 
+            reward = DoubleTurretCost;
+        if (name.Equals("Turret3"))
+            reward = MachinganTurretCost;
+        Debug.Log($"reward {reward}");
+        balanceReward(reward / 2);
+    }
 }

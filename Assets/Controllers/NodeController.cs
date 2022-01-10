@@ -5,20 +5,34 @@ using UnityEngine;
 
 public class NodeController : MonoBehaviour
 {
-    public Transform turret;
+    private GameObject turret;
     public Color hoverColor;
     Renderer renderer;
     Color startColor;
     BuildManager buildManager;
+    bool isSettedTurret;
 
     void Start() {
         renderer = GetComponent<Renderer>();
         startColor = renderer.material.color;
         buildManager = BuildManager.instance;
+        isSettedTurret = false;
     }
     void OnMouseDown() {
-        if (buildManager.ConstructionAllowed)
-            Instantiate(buildManager.TurretToBuild, transform.position + new Vector3(0, 3.0f, 0), transform.rotation);
+        if (!isSettedTurret)
+        {
+            if (buildManager.ConstructionAllowed)
+                {
+                    turret = Instantiate(buildManager.TurretToBuild, transform.position + new Vector3(0, 3.0f, 0), transform.rotation);
+                    isSettedTurret = true;
+                }
+        } else 
+        {
+            TurretController turretController = turret.GetComponent<TurretController>();
+            turretController.sale();
+            Destroy(turret);
+            isSettedTurret = false;
+        }
     }
 
     void OnMouseEnter() {
