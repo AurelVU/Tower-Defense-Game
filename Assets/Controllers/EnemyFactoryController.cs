@@ -12,9 +12,10 @@ public class EnemyFactoryController : MonoBehaviour
     public float timeBetweenWaves = 5f;
     private float countdown = 2f;
     public Transform spawnPoint;
-    public Transform enemy;
-    public Transform enemy2;
-    public Transform enemy3;
+    public List<Transform> enemies;
+    // public Transform enemy;
+    // public Transform enemy2;
+    // public Transform enemy3;
     public float delay = 0.5f;
 
     public Text waveCountdownText;
@@ -57,33 +58,18 @@ public class EnemyFactoryController : MonoBehaviour
 
         for (int i = 0; i < waveIndex; i++)
         {
-            SpawnEnemy();
-            yield return new WaitForSeconds(delay);
-            SpawnEnemy2();
-            yield return new WaitForSeconds(delay);
+            for (int j = 0; j < enemies.Count; j++)
+            {
+                SpawnEnemy(enemies[j]);
+                yield return new WaitForSeconds(delay);
+            }
         }
-
-        SpawnEnemy3();
-        yield return new WaitForSeconds(delay * 3);
-        SpawnEnemy3();
-        
-        
-
         if (onWaveFinished != null)
             onWaveFinished(waveIndex);
     }
 
-    void SpawnEnemy()
+    void SpawnEnemy(Transform enemy)
     {
         Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
-    }
-
-    void SpawnEnemy2()
-    {
-        Instantiate(enemy2, spawnPoint.position, spawnPoint.rotation);
-    }
-    void SpawnEnemy3()
-    {
-        Instantiate(enemy3, spawnPoint.position, spawnPoint.rotation);
     }
 }

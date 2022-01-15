@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour
     public int reward = 50;
     public int damage = 10;
     public bool isAlive { get { return currentHP > 0.0f; } private set {} }
+    public Slider HPSlider;
 
     public Transform target { get { return RotationController.points[currentTargetPoint]; } private set {} }
 
@@ -20,6 +21,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        HPSlider.value = 1;
         currentTargetPoint = 0;
     }
 
@@ -34,6 +36,7 @@ public class EnemyController : MonoBehaviour
 
     public void hit(float damage) {
         currentHP -= damage;
+        HPSlider.value = currentHP / startHP;
         if (!isAlive) {
             destroyWhendestroyed();
         }
