@@ -59,40 +59,9 @@ public class ShopController : MonoBehaviour
             buildManager.selectTurret(turret);
         }
     }
-    public void shopBaseTurret ()
-    {
-        Debug.Log("gdfgfddfgdfgdf");
-        // if (!buildManager.ConstructionAllowed && 
-        // Balance - BaseTurretCost > 0) {
-        //     buyChangeMoney(BaseTurretCost);
-        //     buildManager.selectBaseTurret();
-        // }
-    }
-    // public void shopDoubleTurret ()
-    // {
-    //     if (!buildManager.ConstructionAllowed && Balance - DoubleTurretCost > 0) {
-    //         buyChangeMoney(DoubleTurretCost);
-    //         buildManager.selectDoubleTurret();
-    //     }
-    // }
 
-    // public void shopMachinganTurret ()
-    // {
-    //     if (!buildManager.ConstructionAllowed && Balance - MachinganTurretCost > 0) {
-    //         buyChangeMoney(MachinganTurretCost);
-    //         buildManager.selectMachinganTurret();
-    //     }
-    // }
-
-    public void towerSale(string name) {
-        int reward = 0;
-        Debug.Log($"name {name}");
-        if (name.Equals("Turret"))
-            reward = BaseTurretCost;
-        if (name.Equals("Turret2")) 
-            reward = DoubleTurretCost;
-        if (name.Equals("Turret3"))
-            reward = MachinganTurretCost;
+    public void towerSale(GameObject turret) {
+        int reward = turret.GetComponent<TurretController>().cost;
         Debug.Log($"reward {reward}");
         balanceReward(reward / 2);
     }

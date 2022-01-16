@@ -13,35 +13,48 @@ public class EnemyFactoryController : MonoBehaviour
     private float countdown = 2f;
     public Transform spawnPoint;
     public List<Transform> enemies;
-    // public Transform enemy;
-    // public Transform enemy2;
-    // public Transform enemy3;
-    public float delay = 0.5f;
+
+    public List<GameObject> waves;
+    //public float delay = 0.5f;
 
     public Text waveCountdownText;
     private int waveIndex = 0;
-    private int maxWaveIndex = 5;
+    //private int maxWaveIndex = 5;
     public static EnemyFactoryController instance;
-    public bool isLastWave {get { return maxWaveIndex == waveIndex - 1; } private set {}}
+    public bool isLastWave {get { return waves.Count == waveIndex - 1; } private set {}}
     void Start()
     {
         instance = new EnemyFactoryController();
+
+        for (int i = 0; i < waves.Count; i++) {
+            waves[i].GetComponent<AbstractWaveGenerator>().enemies = enemies;
+            waves[i].GetComponent<AbstractWaveGenerator>().enemyFactoryController = this;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (waveIndex < maxWaveIndex)
+        
+        if (waveIndex < waves.Count)
         {
             if (countdown <= 0f)
             {
-                StartCoroutine(SpawnWave());
+
+                Debug.Log($"{countdown}");
+                if (onWaveFinished != null)
+                    onWaveFinished(waveIndex);
+                
+                var wave = Instantiate<GameObject>(waves[waveIndex]);
+                wave.GetComponent<AbstractWaveGenerator>().generateWave();
+                //StartCoroutine(SpawnWave());
+                waveIndex++;
                 countdown = timeBetweenWaves;
             }
 
             countdown -= Time.deltaTime;
 
-            waveCountdownText.text = $"Волна {waveIndex} / {maxWaveIndex}\nДо следующей волны {Mathf.Round(countdown).ToString()} с.";
+            waveCountdownText.text = $"Волна {waveIndex} / {waves.Count}\nДо следующей волны {Mathf.Round(countdown).ToString()} с.";
         } else {
             waveCountdownText.text = "Силы противника\nисчерпаны";
         }
@@ -52,23 +65,7 @@ public class EnemyFactoryController : MonoBehaviour
             onDamagePlayer(damage);
     }
 
-    IEnumerator SpawnWave()
-    {
-        waveIndex++;
-
-        for (int i = 0; i < waveIndex; i++)
-        {
-            for (int j = 0; j < enemies.Count; j++)
-            {
-                SpawnEnemy(enemies[j]);
-                yield return new WaitForSeconds(delay);
-            }
-        }
-        if (onWaveFinished != null)
-            onWaveFinished(waveIndex);
-    }
-
-    void SpawnEnemy(Transform enemy)
+    public void SpawnEnemy(Transform enemy)
     {
         Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
     }

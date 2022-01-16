@@ -160,8 +160,7 @@ public class TurretController : MonoBehaviour
 	public void sale() {
 		GameObject shop = GameObject.Find("shop");
         ShopController shopController = shop.GetComponent<ShopController>();
-		Debug.Log(transform.name.Replace("(Clone)", "").Trim());
-		shopController.towerSale(transform.name.Replace("(Clone)", "").Trim());
+		shopController.towerSale(gameObject);
 	}
 
     private void OnMouseUp() {
