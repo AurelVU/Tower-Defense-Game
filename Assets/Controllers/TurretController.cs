@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurretController : MonoBehaviour
 {
+	public Sprite icon;
 	private Transform target;
 	private EnemyController targetEnemy;
 
 	[Header("General")]
 	public float damage = 0.1f;
 	public float range = 15f;
+	public int cost = 700;
 
 	[Header("Use Bullets (default)")]
 	public GameObject bulletPrefab;

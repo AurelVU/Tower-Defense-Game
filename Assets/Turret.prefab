@@ -74,8 +74,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7537866a12144584caf80d3f2c76780d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 32a73b7fa36d3c24eb3d6eece59a9f16, type: 3}
   damage: 100
   range: 15
+  cost: 500
   bulletPrefab: {fileID: 1816271799877747879, guid: 7b211c9c47e0d984aba67fff692082c8, type: 3}
   fireRate: 1
   useLaser: 0

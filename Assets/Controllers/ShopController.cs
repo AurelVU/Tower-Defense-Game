@@ -2,20 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+
 
 public class ShopController : MonoBehaviour
 {
+    public GameObject prefabButton;
+    public GameObject shopPanel;
     public Text balanceText;
     public int Balance;
     public int BaseTurretCost;
     public int DoubleTurretCost;
     public int MachinganTurretCost;
-    BuildManager buildManager;
+    public BuildManager buildManager;
+
 
     void Start()
     {
         buildManager = BuildManager.instance;
         balanceText.text = $"{Balance}$";
+
+        GameObject   panel = shopPanel;
+        Debug.Log(panel);
+        foreach (var turret in buildManager.turrets) {
+            GameObject newButton = (GameObject)Instantiate(prefabButton);
+            newButton.GetComponent<Image>().sprite = turret.GetComponent<TurretController>().icon;
+            newButton.GetComponent<ButtonShopController>().turret = turret;
+            newButton.transform.SetParent(panel.transform, false);
+        }
         
         GameObject enemyFactory = GameObject.Find("EnemyFactory");
         EnemyFactoryController enemyFactoryController = enemyFactory.GetComponent<EnemyFactoryController>();
@@ -35,29 +49,40 @@ public class ShopController : MonoBehaviour
         Balance -= cost;
         balanceText.text = $"{Balance}$";
     }
+    public void shopTurret(GameObject turret)
+    {
+        Debug.Log(turret);
+        TurretController controller = turret.GetComponent<TurretController>();
+        if (!buildManager.ConstructionAllowed && 
+        Balance - controller.cost > 0) {
+            buyChangeMoney(controller.cost);
+            buildManager.selectTurret(turret);
+        }
+    }
     public void shopBaseTurret ()
     {
-        if (!buildManager.ConstructionAllowed && 
-        Balance - BaseTurretCost > 0) {
-            buyChangeMoney(BaseTurretCost);
-            buildManager.selectBaseTurret();
-        }
+        Debug.Log("gdfgfddfgdfgdf");
+        // if (!buildManager.ConstructionAllowed && 
+        // Balance - BaseTurretCost > 0) {
+        //     buyChangeMoney(BaseTurretCost);
+        //     buildManager.selectBaseTurret();
+        // }
     }
-    public void shopDoubleTurret ()
-    {
-        if (!buildManager.ConstructionAllowed && Balance - DoubleTurretCost > 0) {
-            buyChangeMoney(DoubleTurretCost);
-            buildManager.selectDoubleTurret();
-        }
-    }
+    // public void shopDoubleTurret ()
+    // {
+    //     if (!buildManager.ConstructionAllowed && Balance - DoubleTurretCost > 0) {
+    //         buyChangeMoney(DoubleTurretCost);
+    //         buildManager.selectDoubleTurret();
+    //     }
+    // }
 
-    public void shopMachinganTurret ()
-    {
-        if (!buildManager.ConstructionAllowed && Balance - MachinganTurretCost > 0) {
-            buyChangeMoney(MachinganTurretCost);
-            buildManager.selectMachinganTurret();
-        }
-    }
+    // public void shopMachinganTurret ()
+    // {
+    //     if (!buildManager.ConstructionAllowed && Balance - MachinganTurretCost > 0) {
+    //         buyChangeMoney(MachinganTurretCost);
+    //         buildManager.selectMachinganTurret();
+    //     }
+    // }
 
     public void towerSale(string name) {
         int reward = 0;

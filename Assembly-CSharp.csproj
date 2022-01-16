@@ -40,13 +40,14 @@
      <Compile Include="Assets\Controllers\NodeController.cs" />
      <Compile Include="Assets\Controllers\BulletController.cs" />
      <Compile Include="Assets\Controllers\EnemyFactoryController.cs" />
+     <Compile Include="Assets\Controllers\HPBarController.cs" />
      <Compile Include="Assets\Controllers\PlayerController.cs" />
      <Compile Include="Assets\Controllers\TurretController.cs" />
      <Compile Include="Assets\Controllers\GameController.cs" />
      <Compile Include="Assets\Controllers\EnemyController.cs" />
      <Compile Include="Assets\Controllers\BuildManager.cs" />
      <Compile Include="Assets\Controllers\RotationController.cs" />
-     <Compile Include="Assets\Controllers\HPBarController.cs" />
+     <Compile Include="Assets\Controllers\ButtonShopController.cs" />
      <None Include="Assets\Models\SciFI_Mech\Note.txt" />
      <None Include="Assets\Models\Mecha2\robot_1.txt" />
     <Reference Include="UnityEngine">
